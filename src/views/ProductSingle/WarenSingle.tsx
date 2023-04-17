@@ -15,7 +15,7 @@ interface WarenSingleProps {
 const WarenSingle = ({product, PIndex, image, name, categorie, anzahlImWarenkorb, price, inWarenkorb, minusWarenkorb}:WarenSingleProps) => {
     return (
         <div>
-            <td>{PIndex}</td>
+            <tr>
             <td>
                 <img width="100%" src={image} alt=""/></td>
             <td>{name}</td>
@@ -26,11 +26,12 @@ const WarenSingle = ({product, PIndex, image, name, categorie, anzahlImWarenkorb
             <td><button className="btn btn-primary" onClick={() => {
                 inWarenkorb(product);
             }}
-            >+</button></td>
-            <td><button className="btn btn-primary" onClick={() => {
+            >+</button></td><td>
+            <button className="btn btn-primary" onClick={() => {
                 minusWarenkorb(product);
             }}
             >-</button></td>
+        </tr>
         </div>
     );
 };

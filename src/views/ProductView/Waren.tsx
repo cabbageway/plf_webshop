@@ -1,6 +1,5 @@
 import React from 'react';
 import { product } from '../../common/models/product';
-import ProductSingle from '../ProductSingle/ProductSingle';
 import WarenSingle from '../ProductSingle/WarenSingle';
 
 interface WarenProps {
@@ -18,30 +17,34 @@ const Waren = ({warenkorb, inWarenkorb, minusWarenkorb, gesamtSumme}:WarenProps)
     <table>
         <thead>
         <tr>
-            <th scope="col">Index</th>
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope="col">Add</th>
+
+            <th >Image</th>
+            <th >Name</th>
+            <th >Kategorie</th>
+            <th >gewünschte Anzahl</th>
+            <th >Preis</th>
+            <th >+</th>
+            <th >-</th>
 
         </tr>
         </thead>
         <tbody>
         <div>
         {
+
             warenkorb.map((product,index) => {
 
                 if (product.PIndex != 0) {
                 return   (
 
-                <tr>
+
 
                     <WarenSingle product={product} PIndex={product.PIndex} image={product.image}
                                  name={product.name} categorie={product.category} price={product.price}
                                  anzahlImWarenkorb={product.anzahlImWarenkorb} inWarenkorb={inWarenkorb}
                                  minusWarenkorb={minusWarenkorb} key={product.PIndex}/>
 
-                </tr>
+
                 )
             }})
         }

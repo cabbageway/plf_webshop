@@ -15,7 +15,6 @@ const Header = ({clickProducts, clickWarenkorb, clickLogin}:HeaderProps) => {
     return (
         <div className="header">
             <img src="" className="" alt="logo" />
-            <span className="material-icons">Star</span>
             <button  className="btn btn-secondary" onClick={clickProducts}>Produktliste</button>
             <button className="btn btn-secondary" onClick={clickWarenkorb}>Warenkorb</button>
             <button className="btn btn-secondary" onClick={clickLogin}>Login</button>
