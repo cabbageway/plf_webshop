@@ -1,7 +1,7 @@
-import {product} from "./product";
-import { user } from "./user";
+import {IProduct} from "./IProduct";
 
-export const productData: product[] = [
+
+export const productData: IProduct[] = [
     {
         PIndex : 1,
         name: "Iphone 12",
@@ -20,12 +20,12 @@ export const productData: product[] = [
     }
 ];
 
-export const userData: user[] = [{
-    username: "Chris",
-    userpwd: "1234"
-},
-    {
-        username: "Gernot",
-        userpwd: "5678"
-    }
-]
+// export const userData: user[] = [{
+//     username: "Chris",
+//     userpwd: "1234"
+// },
+//     {
+//         username: "Gernot",
+//         userpwd: "5678"
+//     }
+// ]

@@ -1,179 +1,118 @@
 import React, {ReactNode, useState} from 'react';
-import { productData, userData } from './common/models/mochDataproducts';
-import { product } from './common/models/product';
-import { user } from './common/models/user';
+import {productData} from './common/models/mockDataProducts';
+import {IProduct} from './common/models/IProduct';
 
-import Header from "./views/Header/Header";
-import LogInForm from './views/LogInForm/LogInForm';
-import Meldung from './views/LogInForm/Meldung';
-import DetailsView from './views/ProductSingle/DetailsView';
-import ShowProducts from "./views/ProductView/ShowProducts";
-import Waren from './views/ProductView/Waren';
-
+import Header from "./views/header/Header";
+import ProductList from "./views/product-list/ProductList";
+import Warenkorb from "./views/warenkorb/Warenkorb";
+import DetailsView from "./views/details-view/DetailsView";
 
 
 export enum AppViews {
-    ProductOverview = 1,
-    Warenkorb = 2,
-    ProductDetails = 3,
-    Login= 4,
-    Meldung=5
+  ProductOverview = 1,
+  Warenkorb = 2,
+  ProductDetails = 3,
+  Login = 4,
+  Meldung = 5
 }
 
 
-
 function App() {
-    
-    const [products, setproducts] = useState(productData);
-    const [warenkorb, setWarenkorb] = useState([{PIndex : 0,
-        name: "",
-        category: "",
-        image:"",
-        price: 0.0,
-        anzahlImWarenkorb:0}]);
-    
-    const [detailP, setdetailP] = useState(productData[0]);
-    const [gesamtSumme, setGesamtSumme] = useState(0);
 
-    const inWarenkorb = (p : product) => {
+  const [products, setproducts] = useState(productData);
+  const [warenkorb, setWarenkorb] = useState([{
+    PIndex: 0,
+    name: "",
+    category: "",
+    image: "",
+    price: 0.0,
+    anzahlImWarenkorb: 0
+  }]);
 
-        let existP = warenkorb.find((item) => {
-            return (item == p);
-        })
-        let warenkorbNew:product[]=[];
+  const [detailP, setdetailP] = useState(productData[0]);
 
+  const inWarenkorb = (p: IProduct) => {
 
-        if (existP == undefined) {
-            warenkorbNew = [...warenkorb,p];
-        }
-        else {
-            existP.anzahlImWarenkorb++;
-            warenkorbNew = [...warenkorb];
-        }
-        let summe = 0;
-        // @ts-ignore
-        warenkorbNew.forEach(item => {
-            console.log(summe);
-            summe += item.price * item.anzahlImWarenkorb;
-        })
-        setGesamtSumme(summe);
-        // @ts-ignore
-        
-        setWarenkorb(warenkorbNew);
-        
-    }
-
-    const minusWarenkorb = (p : product) => {
-
-        let existP = warenkorb.find((item) => {
-            return (item == p);
-        })
-        let warenkorbNew={};
-        if (existP == undefined) {
-            warenkorbNew = [...warenkorb,p];
-        }
-        else {
-            existP.anzahlImWarenkorb--;
-            if (existP.anzahlImWarenkorb == 0) {
-             warenkorbNew   = warenkorb.filter((item) => {
-                    return (item != p);
-                })
-            }
-            else {
-                warenkorbNew = [...warenkorb];
-            }
-        }
-        let summe = 0;
-        // @ts-ignore
-        warenkorbNew.forEach(item => {
-            console.log(summe);
-            summe += item.price * item.anzahlImWarenkorb;
-        })
-        setGesamtSumme(summe);
-        // @ts-ignore
-        setWarenkorb(warenkorbNew);
-
-    }
-    const [selectedView, setSelectedView] = useState(AppViews.ProductOverview);
-
-    const clickProducts = () => {
-        setSelectedView(AppViews.ProductOverview);
-    }
-
-    const clickWarenkorb = () => {
-        if (userOK) {
-            setSelectedView(AppViews.Warenkorb);
-        }
-        else {
-            setSelectedView(AppViews.Meldung);
-        }
-    }
-
-    const clickLogin = () => {
-        setSelectedView(AppViews.Login);
-    }
-    const toDetails = (p:product) => {
-        setdetailP(p);
-        setSelectedView(AppViews.ProductDetails);
-    }
-
-    const [users, setusers] = useState(userData);
-    const [userOK, setUserOK] = useState(true);
-
-    const onCheck = ( (u:user) => {
-        console.log(u);
-       let user  = users.find((ele) => {
-           return (ele.username == u.username) && (ele.userpwd == u.userpwd)
-       })
-        if (user != undefined) {
-        setUserOK(true);
-       window.alert("einloggen OK sie dürfen den Warenkorb nutzen");
-       }
-        else {
-           window.alert("Username und Password passen nicht");
-       }
-       
+    let existP = warenkorb.find((item) => {
+      return (item == p);
     })
 
+    let warenkorbNew: IProduct[] = [];
 
-
-    const renderSelectedView = (): ReactNode => {
-        switch (selectedView) {
-            case AppViews.ProductOverview:
-                return (
-                    <ShowProducts products={products} inWarenkorb={inWarenkorb} toDetails={toDetails}/>
-                    
-                )
-            case AppViews.Warenkorb:
-                return (
-                    <Waren warenkorb={warenkorb} inWarenkorb={inWarenkorb} minusWarenkorb={minusWarenkorb} gesamtSumme={gesamtSumme} />
-                )
-            case AppViews.ProductDetails:
-                return (
-                    <DetailsView detailedProduct={detailP} toShowProducts={clickProducts} />
-                )
-            case AppViews.Login:
-                return (
-                    <LogInForm toProducts={clickProducts} onCheck={onCheck}/>
-                )
-            case AppViews.Meldung:
-                return (
-                   <Meldung toProducts={clickProducts} />
-                )
-                
-
-        }
+    if (existP == undefined) {
+      warenkorbNew = [...warenkorb, p];
+    } else {
+      existP.anzahlImWarenkorb++;
+      warenkorbNew = [...warenkorb];
     }
 
-        return (
-        <div className="App">
+    setWarenkorb(warenkorbNew);
+  }
 
-            <Header clickProducts={clickProducts} clickWarenkorb={clickWarenkorb} clickLogin={clickLogin} />
-            <div className="app-content">
-                {renderSelectedView()}
-            </div>
+  const minusWarenkorb = (p: IProduct) => {
+
+    let warenkorbNew = warenkorb.map(w => {
+      if (w.PIndex === p.PIndex) {
+        w.anzahlImWarenkorb--;
+        return w;
+      } else {
+        return w;
+      }
+    })
+
+    const warenkorbFiltered = warenkorbNew.filter(w => w.anzahlImWarenkorb > 0);
+
+    setWarenkorb(warenkorbFiltered);
+
+  }
+  const [selectedView, setSelectedView] = useState(AppViews.ProductOverview);
+
+  const clickProducts = () => {
+    setSelectedView(AppViews.ProductOverview);
+  }
+
+  const clickWarenkorb = () => {
+    setSelectedView(AppViews.Warenkorb);
+  }
+
+  const clickLogin = () => {
+    setSelectedView(AppViews.Login);
+  }
+  const toDetails = (p: IProduct) => {
+    setdetailP(p);
+    setSelectedView(AppViews.ProductDetails);
+  }
+
+
+  const renderSelectedView = (): ReactNode => {
+    switch (selectedView) {
+      case AppViews.ProductOverview:
+        return (
+            <ProductList products={products} inWarenkorb={inWarenkorb} toDetails={toDetails}/>
+
+        )
+      case AppViews.Warenkorb:
+        return (
+            <Warenkorb warenkorb={warenkorb} inWarenkorb={inWarenkorb}
+                       minusWarenkorb={minusWarenkorb}/>
+        )
+      case AppViews.ProductDetails:
+        return (
+            <DetailsView detailedProduct={detailP} toShowProducts={clickProducts}/>
+        )
+    }
+  }
+
+  return (
+      <div className="App container">
+
+        <Header clickProducts={clickProducts} clickWarenkorb={clickWarenkorb}
+                clickLogin={clickLogin}/>
+        <div className="app-content">
+          {renderSelectedView()}
         </div>
-    );
+      </div>
+  );
 }
 
 export default App;

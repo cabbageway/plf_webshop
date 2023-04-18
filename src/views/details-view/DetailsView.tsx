@@ -1,10 +1,10 @@
 import React from 'react';
-import { product } from '../../common/models/product';
+import { IProduct } from '../../common/models/IProduct';
 
 
 
 interface DetailsViewProps {
-    detailedProduct : product,
+    detailedProduct : IProduct,
     toShowProducts : () => void
 }
 const DetailsView = ({detailedProduct, toShowProducts} :DetailsViewProps) => {

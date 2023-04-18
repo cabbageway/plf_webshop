@@ -1,4 +1,4 @@
-export interface product {
+export interface IProduct {
     PIndex : number,
     name: string,
     category: string,
